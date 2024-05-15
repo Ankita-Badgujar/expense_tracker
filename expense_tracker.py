@@ -1,13 +1,31 @@
 import json
 import datetime
 
+# Predefined categories
+CATEGORIES = [
+    "Food & Dining", "Transportation", "Utilities", "Entertainment", 
+    "Healthcare", "Housing", "Education", "Insurance", 
+    "Personal Care", "Shopping", "Travel", "Savings", "Miscellaneous"
+]
+
+def display_categories():
+    print("Select a category:")
+    for index, category in enumerate(CATEGORIES, start=1):
+        print(f"{index}. {category}")
+
 def add_expense():
     try:
         amount = float(input("Enter expense amount: "))
         date = input("Enter date (YYYY-MM-DD): ")
-        category = input("Enter category: ")
-        description = input("Enter description: ")
         datetime.datetime.strptime(date, '%Y-%m-%d')  # Validate date format
+
+        display_categories()
+        category_index = int(input("Enter category number: "))
+        if category_index < 1 or category_index > len(CATEGORIES):
+            raise ValueError("Invalid category number")
+        
+        category = CATEGORIES[category_index - 1]
+        description = input("Enter description: ")
         return {'amount': amount, 'date': date, 'category': category, 'description': description}
     except ValueError as e:
         print("Invalid input:", e)
